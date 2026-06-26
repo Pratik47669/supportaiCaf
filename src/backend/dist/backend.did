@@ -1,0 +1,733 @@
+type ValidationError = 
+ variant {
+   containsHtml;
+   emptyInput;
+   invalidCharacters;
+   invalidLength;
+   tooLong: nat;
+ };
+type UserRole__1 = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type UserRole = 
+ variant {
+   admin;
+   owner;
+   supportAgent;
+   viewer;
+ };
+type UserId = principal;
+type User = 
+ record {
+   businessId: opt BusinessId;
+   createdAt: Timestamp;
+   email: opt text;
+   id: UserId;
+   isActive: bool;
+   name: text;
+   "principal": principal;
+   role: UserRole;
+ };
+type TransformationOutput = 
+ record {
+   body: blob;
+   headers: vec HttpHeader;
+   status: nat;
+ };
+type TransformationInput = 
+ record {
+   context: blob;
+   response: HttpRequestResult;
+ };
+type Timestamp = nat;
+type TicketStatus = 
+ variant {
+   closed;
+   inProgress;
+   open;
+   resolved;
+ };
+type TicketPriority = 
+ variant {
+   high;
+   low;
+   medium;
+   urgent;
+ };
+type TicketId = nat;
+type TicketAnalytics = 
+ record {
+   avgResolutionTime: nat;
+   byPriority: record {
+                 high: nat;
+                 low: nat;
+                 medium: nat;
+                 urgent: nat;
+               };
+   closed: nat;
+   inProgress: nat;
+   open: nat;
+   periodEnd: Timestamp;
+   periodStart: Timestamp;
+   resolved: nat;
+   total: nat;
+ };
+type Ticket = 
+ record {
+   assignee: opt UserId;
+   businessId: BusinessId;
+   createdAt: Timestamp;
+   creator: UserId;
+   customerId: opt UserId;
+   description: text;
+   id: TicketId;
+   isDeleted: opt bool;
+   priority: TicketPriority;
+   status: TicketStatus;
+   title: text;
+   updatedAt: Timestamp;
+ };
+type TeamMemberAnalytics = 
+ record {
+   agentId: principal;
+   name: text;
+   ticketsAssigned: nat;
+   ticketsResolved: nat;
+ };
+type TeamAnalytics = 
+ record {
+   activeMembers: nat;
+   members: vec TeamMemberAnalytics;
+   membersByRole:
+    record {
+      admin: nat;
+      owner: nat;
+      supportAgent: nat;
+      viewer: nat;
+    };
+   pendingInvites: nat;
+   totalMembers: nat;
+ };
+type SearchResult = 
+ record {
+   chunk: DocumentChunk;
+   score: float64;
+ };
+type Result = 
+ variant {
+   err: Error;
+   ok;
+ };
+type ResponseTone = 
+ variant {
+   casual;
+   direct;
+   empathetic;
+   formal;
+ };
+type RateLimitError = variant {
+                        rateLimited: record {
+                                       message: text;
+                                       retryAfter: nat;
+                                     };};
+type RateLimitEntry = 
+ record {
+   count: nat;
+   endpoint: text;
+   "principal": principal;
+   windowStart: Timestamp;
+ };
+type PromptVersion = 
+ record {
+   businessId: BusinessId;
+   createdAt: Timestamp;
+   id: nat;
+   isActive: bool;
+   systemPrompt: text;
+   versionNumber: nat;
+ };
+type OtpRecord = 
+ record {
+   code: text;
+   createdAt: Timestamp;
+   email: text;
+   verified: bool;
+ };
+type MessageId = nat;
+type KnowledgeBaseArticle = 
+ record {
+   businessId: BusinessId;
+   category: text;
+   content: text;
+   createdAt: Timestamp;
+   id: ArticleId;
+   title: text;
+   updatedAt: Timestamp;
+ };
+type InviteLink = 
+ record {
+   businessId: BusinessId;
+   code: text;
+   createdBy: UserId;
+   expiresAt: Timestamp;
+   id: InviteId;
+   revokedAt: opt Timestamp;
+   role: UserRole;
+   used: bool;
+ };
+type InviteId = nat;
+type HttpRequestResult = 
+ record {
+   body: blob;
+   headers: vec HttpHeader;
+   status: nat;
+ };
+type HttpHeader = 
+ record {
+   name: text;
+   value: text;
+ };
+type FeedbackStats = 
+ record {
+   thumbsDown: nat;
+   thumbsUp: nat;
+   thumbsUpPercentage: nat;
+   total: nat;
+ };
+type FeedbackRating = 
+ variant {
+   thumbsDown;
+   thumbsUp;
+ };
+type FeedbackId = nat;
+type Feedback = 
+ record {
+   comment: opt text;
+   conversationId: ConversationId;
+   createdAt: Timestamp;
+   id: FeedbackId;
+   messageId: MessageId;
+   rating: FeedbackRating;
+ };
+type ExportedTicket = 
+ record {
+   assignee: opt UserId;
+   businessId: BusinessId;
+   createdAt: Timestamp;
+   creator: UserId;
+   description: text;
+   id: TicketId;
+   priority: TicketPriority;
+   status: TicketStatus;
+   title: text;
+   updatedAt: Timestamp;
+ };
+type ExportedCustomer = 
+ record {
+   businessId: BusinessId;
+   createdAt: Timestamp;
+   email: text;
+   id: CustomerId;
+   name: text;
+ };
+type ExportedChat = 
+ record {
+   businessId: BusinessId;
+   conversationId: ConversationId;
+   createdAt: Timestamp;
+   messages: vec ChatMessage;
+   title: text;
+   updatedAt: Timestamp;
+   userId: UserId;
+ };
+type ExportedAnalytics = 
+ record {
+   aiAnalytics: AiAnalytics;
+   overview: AnalyticsSnapshot;
+   teamAnalytics: TeamAnalytics;
+   ticketAnalytics: TicketAnalytics;
+ };
+type Error = 
+ variant {
+   AmbiguousAttribute: record {
+                         field: text;
+                         sources: vec text;
+                       };
+   FrontendOriginMismatch: record {
+                             expected: vec text;
+                             got: text;
+                           };
+   FrontendOriginsNotConfigured;
+   MalformedCandid;
+   MissingField: text;
+   MixedSsoSources: record {
+                      otherKeys: vec text;
+                      ssoKeys: vec text;
+                    };
+   NoAttributes;
+   Stale: record {ageNs: nat;};
+   UnknownNonce;
+   UntrustedSsoSource: record {domain: text;};
+ };
+type Embedding = 
+ record {
+   chunkId: ChunkId;
+   vector: vec float64;
+ };
+type DocumentChunk = 
+ record {
+   articleId: ArticleId;
+   chunkIndex: nat;
+   content: text;
+   createdAt: Timestamp;
+   id: ChunkId;
+ };
+type CustomerNote = 
+ record {
+   authorId: UserId;
+   createdAt: Timestamp;
+   "text": text;
+ };
+type CustomerId = nat;
+type Customer = 
+ record {
+   businessId: BusinessId;
+   createdAt: Timestamp;
+   email: text;
+   id: CustomerId;
+   lastInteraction: Timestamp;
+   name: text;
+   notes: vec CustomerNote;
+   tags: vec text;
+   totalChats: nat;
+ };
+type CrawledPageId = nat;
+type CrawledPage = 
+ record {
+   businessId: BusinessId;
+   content: text;
+   createdAt: Timestamp;
+   id: CrawledPageId;
+   title: text;
+   url: text;
+ };
+type ConversationId = nat;
+type Conversation = 
+ record {
+   businessId: BusinessId;
+   createdAt: Timestamp;
+   id: ConversationId;
+   title: text;
+   updatedAt: Timestamp;
+   userId: UserId;
+ };
+type ChunkId = nat;
+type ChatMessageRole = 
+ variant {
+   assistant;
+   bot;
+   user;
+ };
+type ChatMessage = 
+ record {
+   confidence: opt float64;
+   content: text;
+   conversationId: ConversationId;
+   id: MessageId;
+   role: ChatMessageRole;
+   timestamp: Timestamp;
+ };
+type BusinessId = nat;
+type Business = 
+ record {
+   createdAt: Timestamp;
+   description: text;
+   id: BusinessId;
+   industry: text;
+   logoUrl: opt text;
+   name: text;
+   ownerId: UserId;
+   phoneNumber: opt text;
+   supportEmail: text;
+   teamSize: text;
+   website: opt text;
+ };
+type AuditLog = 
+ record {
+   businessId: opt BusinessId;
+   details: text;
+   eventType: AuditEventType;
+   id: nat;
+   "principal": principal;
+   timestamp: Timestamp;
+ };
+type AuditEventType = 
+ variant {
+   CREATE_CUSTOMER;
+   CREATE_TICKET;
+   DELETE_TICKET;
+   EXPORT_DATA;
+   INVITE_MEMBER;
+   LOGIN;
+   LOGOUT;
+   SEND_MESSAGE;
+   UPDATE_CUSTOMER;
+   UPDATE_SETTINGS;
+   UPDATE_TICKET;
+ };
+type ArticleId = nat;
+type ApiResult_9 = 
+ variant {
+   err: text;
+   ok: ChatMessage;
+ };
+type ApiResult_8 = 
+ variant {
+   err: text;
+   ok: text;
+ };
+type ApiResult_7 = 
+ variant {
+   err: text;
+   ok: AiResponseWithSources;
+ };
+type ApiResult_6 = 
+ variant {
+   err: text;
+   ok;
+ };
+type ApiResult_5 = 
+ variant {
+   err: text;
+   ok: Business;
+ };
+type ApiResult_4 = 
+ variant {
+   err: text;
+   ok: Customer;
+ };
+type ApiResult_3 = 
+ variant {
+   err: text;
+   ok: Ticket;
+ };
+type ApiResult_2 = 
+ variant {
+   err: text;
+   ok: User;
+ };
+type ApiResult_18 = 
+ variant {
+   err: text;
+   ok: Feedback;
+ };
+type ApiResult_17 = 
+ variant {
+   err: text;
+   ok: CrawledPage;
+ };
+type ApiResult_16 = 
+ variant {
+   err: text;
+   ok: Conversation;
+ };
+type ApiResult_15 = 
+ variant {
+   err: text;
+   ok: ExportedAnalytics;
+ };
+type ApiResult_14 = 
+ variant {
+   err: text;
+   ok: AiAnalytics;
+ };
+type ApiResult_13 = 
+ variant {
+   err: text;
+   ok: AnalyticsSnapshot;
+ };
+type ApiResult_12 = 
+ variant {
+   err: text;
+   ok: TeamAnalytics;
+ };
+type ApiResult_11 = 
+ variant {
+   err: text;
+   ok: TicketAnalytics;
+ };
+type ApiResult_10 = 
+ variant {
+   err: text;
+   ok: InviteLink;
+ };
+type ApiResult_1 = 
+ variant {
+   err: text;
+   ok: KnowledgeBaseArticle;
+ };
+type ApiResult = 
+ variant {
+   err: text;
+   ok: bool;
+ };
+type AnalyticsSnapshot = 
+ record {
+   aiInteractions: nat;
+   avgResolutionTime: nat;
+   openTickets: nat;
+   periodEnd: Timestamp;
+   periodStart: Timestamp;
+   resolvedTickets: nat;
+   teamSize: nat;
+   totalConversations: nat;
+   totalMessages: nat;
+   totalTickets: nat;
+ };
+type AiResponseWithSources = 
+ record {
+   response: text;
+   sources: vec SearchResult;
+ };
+type AiPersonality = 
+ variant {
+   calm;
+   friendly;
+   professional;
+   witty;
+ };
+type AiConfig = 
+ record {
+   businessId: BusinessId;
+   maxTokens: nat;
+   personality: AiPersonality;
+   systemPrompt: text;
+   temperature: float64;
+   tone: ResponseTone;
+   updatedAt: Timestamp;
+ };
+type AiAnalytics = 
+ record {
+   assistantMessages: nat;
+   avgMessagesPerConversation: nat;
+   avgResponseTime: nat;
+   periodEnd: Timestamp;
+   periodStart: Timestamp;
+   thumbsDown: nat;
+   thumbsUp: nat;
+   totalConversations: nat;
+   totalMessages: nat;
+ };
+type ActivityEvent = 
+ record {
+   details: text;
+   eventType: AuditEventType;
+   "principal": principal;
+   timestamp: Timestamp;
+ };
+service : {
+  __accessControlState: () -> (reserved) query;
+  __aiConfigs: (ko: opt BusinessId, count: opt nat) ->
+   (vec record {
+          BusinessId;
+          AiConfig;
+        }) query;
+  __articles: (ko: opt ArticleId, count: opt nat) ->
+   (vec record {
+          ArticleId;
+          KnowledgeBaseArticle;
+        }) query;
+  __auditLogs: (ko: opt nat, count: opt nat) ->
+   (vec record {
+          nat;
+          AuditLog;
+        }) query;
+  __businesses: (ko: opt BusinessId, count: opt nat) ->
+   (vec record {
+          BusinessId;
+          Business;
+        }) query;
+  __chunks: (ko: opt ChunkId, count: opt nat) ->
+   (vec record {
+          ChunkId;
+          DocumentChunk;
+        }) query;
+  __conversations: (ko: opt ConversationId, count: opt nat) ->
+   (vec record {
+          ConversationId;
+          Conversation;
+        }) query;
+  __crawledPages: (ko: opt CrawledPageId, count: opt nat) ->
+   (vec record {
+          CrawledPageId;
+          CrawledPage;
+        }) query;
+  __customers: (ko: opt CustomerId, count: opt nat) ->
+   (vec record {
+          CustomerId;
+          Customer;
+        }) query;
+  __embeddings: (ko: opt ChunkId, count: opt nat) ->
+   (vec record {
+          ChunkId;
+          Embedding;
+        }) query;
+  __feedbacks: (ko: opt FeedbackId, count: opt nat) ->
+   (vec record {
+          FeedbackId;
+          Feedback;
+        }) query;
+  __geminiApiKey: () -> (reserved) query;
+  __invites: (ko: opt InviteId, count: opt nat) ->
+   (vec record {
+          InviteId;
+          InviteLink;
+        }) query;
+  __messages: (ko: opt MessageId, count: opt nat) ->
+   (vec record {
+          MessageId;
+          ChatMessage;
+        }) query;
+  __nextArticleId: () -> (reserved) query;
+  __nextAuditLogId: () -> (reserved) query;
+  __nextBusinessId: () -> (reserved) query;
+  __nextChunkId: () -> (reserved) query;
+  __nextConversationId: () -> (reserved) query;
+  __nextCrawledPageId: () -> (reserved) query;
+  __nextCustomerId: () -> (reserved) query;
+  __nextFeedbackId: () -> (reserved) query;
+  __nextInviteId: () -> (reserved) query;
+  __nextMessageId: () -> (reserved) query;
+  __nextPromptVersionId: () -> (reserved) query;
+  __nextTicketId: () -> (reserved) query;
+  __otps: (ko: opt text, count: opt nat) ->
+   (vec record {
+          text;
+          OtpRecord;
+        }) query;
+  __promptVersions: (ko: opt nat, count: opt nat) ->
+   (vec record {
+          nat;
+          PromptVersion;
+        }) query;
+  __rateLimits: (ko: opt principal, count: opt nat) ->
+   (vec record {
+          principal;
+          RateLimitEntry;
+        }) query;
+  __tickets: (ko: opt TicketId, count: opt nat) ->
+   (vec record {
+          TicketId;
+          Ticket;
+        }) query;
+  __users: (ko: opt principal, count: opt nat) ->
+   (vec record {
+          principal;
+          User;
+        }) query;
+  _initialize_access_control: () -> ();
+  _internet_identity_sign_in_finish: () -> (Result);
+  _internet_identity_sign_in_start: () -> (blob);
+  acceptInvite: (code: text) -> (ApiResult_10);
+  addCustomerNote: (customerId: CustomerId, "text": text) -> (ApiResult_4);
+  addCustomerTag: (customerId: CustomerId, tag: text) -> (ApiResult_4);
+  addFeedback: (messageId: MessageId, conversationId: ConversationId, rating:
+   FeedbackRating, comment: opt text) -> (ApiResult_18);
+  assignCallerUserRole: (user: principal, role: UserRole__1) -> ();
+  checkRateLimit: (endpoint: text) -> (opt RateLimitError) query;
+  crawlWebsite: (businessId: BusinessId, url: text, title: text, content:
+   text) -> (ApiResult_17);
+  createArticle: (businessId: BusinessId, title: text, content: text,
+   category: text) -> (ApiResult_1);
+  createBusiness: (name: text, industry: text, website: opt text,
+   description: text, teamSize: text, logoUrl: opt text, supportEmail: 
+   text, phoneNumber: opt text) -> (ApiResult_5);
+  createConversation: (businessId: BusinessId, title: text) -> (ApiResult_16);
+  createCustomer: (businessId: BusinessId, name: text, email: text) ->
+   (ApiResult_4);
+  createInvite: (businessId: BusinessId, code: text, role: UserRole,
+   expiresAt: nat) -> (ApiResult_10);
+  createTicket: (businessId: BusinessId, title: text, description: text,
+   priority: TicketPriority, status: TicketStatus, customerId: opt UserId) ->
+   (ApiResult_3);
+  deleteArticle: (articleId: ArticleId) -> (ApiResult_6);
+  deleteBusiness: (businessId: BusinessId) -> (ApiResult_6);
+  deleteConversation: (conversationId: ConversationId) -> (ApiResult_6);
+  deleteCustomer: (customerId: CustomerId) -> (ApiResult_6);
+  deleteTicket: (ticketId: TicketId) -> (ApiResult_6);
+  exportAnalytics: (businessId: BusinessId, periodStart: nat, periodEnd:
+   nat) -> (ApiResult_15) query;
+  exportChats: (businessId: BusinessId) -> (vec ExportedChat) query;
+  exportCustomers: (businessId: BusinessId) -> (vec ExportedCustomer) query;
+  exportTickets: (businessId: BusinessId) -> (vec ExportedTicket) query;
+  generateOtp: (email: text) -> (ApiResult_8);
+  getActivityTimeline: (businessId: BusinessId, hours: nat) ->
+   (vec ActivityEvent) query;
+  getAiAnalytics: (businessId: BusinessId, periodStart: nat, periodEnd:
+   nat) -> (ApiResult_14) query;
+  getArticle: (articleId: ArticleId) -> (opt KnowledgeBaseArticle) query;
+  getArticles: (businessId: BusinessId) -> (vec KnowledgeBaseArticle) query;
+  getAuditLogs: (businessId: BusinessId, limit: nat) -> (vec AuditLog) query;
+  getBusiness: (businessId: BusinessId) -> (opt Business) query;
+  getCallerUser: () -> (opt User) query;
+  getCallerUserRole: () -> (UserRole__1) query;
+  getConversations: (businessId: BusinessId) -> (vec Conversation) query;
+  getCrawledPages: (businessId: BusinessId) -> (vec CrawledPage) query;
+  getCustomer: (customerId: CustomerId) -> (opt Customer) query;
+  getCustomers: (businessId: BusinessId) -> (vec Customer) query;
+  getFeedbackByConversation: (conversationId: ConversationId) ->
+   (vec Feedback) query;
+  getFeedbackStats: () -> (FeedbackStats) query;
+  getGeminiApiKey: () -> (opt text) query;
+  getInviteByCode: (code: text) -> (opt InviteLink) query;
+  getInvites: (businessId: BusinessId) -> (vec InviteLink) query;
+  getMessages: (conversationId: ConversationId) -> (vec ChatMessage) query;
+  getMyAuditLogs: (limit: nat) -> (vec AuditLog) query;
+  getMyBusiness: () -> (opt Business) query;
+  getOverview: (businessId: BusinessId, periodStart: nat, periodEnd: 
+   nat) -> (ApiResult_13) query;
+  getSimulatedOtp: (email: text) -> (opt text) query;
+  getTeamAnalytics: (businessId: BusinessId) -> (ApiResult_12) query;
+  getTicket: (ticketId: TicketId) -> (opt Ticket) query;
+  getTicketAnalytics: (businessId: BusinessId, periodStart: nat, periodEnd:
+   nat) -> (ApiResult_11) query;
+  getTickets: (businessId: BusinessId) -> (vec Ticket) query;
+  getUser: (userId: principal) -> (opt User) query;
+  getUserRole: (userId: principal) -> (opt UserRole) query;
+  isCallerAdmin: () -> (bool) query;
+  register: (name: text, email: opt text) -> (ApiResult_2);
+  removeCustomerTag: (customerId: CustomerId, tag: text) -> (ApiResult_4);
+  removeTeamMember: (targetUserId: principal) -> (ApiResult_2);
+  revokeInvite: (inviteId: InviteId) -> (ApiResult_10);
+  sanitizeInput: (input: text) -> (text) query;
+  searchKnowledgeBase: (businessId: BusinessId, queryText: text, topK:
+   nat) -> (vec SearchResult) query;
+  sendMessage: (conversationId: ConversationId, role: ChatMessageRole,
+   content: text, confidence: opt float64) -> (ApiResult_9);
+  sendToGemini: (conversationId: ConversationId, message: text) ->
+   (ApiResult_8);
+  sendToGeminiWithSources: (conversationId: ConversationId, message: 
+   text) -> (ApiResult_7);
+  setGeminiApiKey: (key: text) -> (ApiResult_6);
+  transform: (input: TransformationInput) -> (TransformationOutput) query;
+  updateArticle: (articleId: ArticleId, title: opt text, content: opt text,
+   category: opt text) -> (ApiResult_1);
+  updateBusiness: (businessId: BusinessId, name: text, industry: text,
+   website: opt text, description: text, teamSize: text, logoUrl: opt text,
+   supportEmail: text, phoneNumber: opt text) -> (ApiResult_5);
+  updateCustomer: (customerId: CustomerId, name: opt text, email:
+   opt text) -> (ApiResult_4);
+  updateTicket: (ticketId: TicketId, title: opt text, description: opt text,
+   status: opt TicketStatus, priority: opt TicketPriority, assignee:
+   opt UserId) -> (ApiResult_3);
+  updateUserRole: (targetUserId: principal, newRole: UserRole) ->
+   (ApiResult_2);
+  uploadDocumentChunks: (businessId: BusinessId, title: text, content: 
+   text, category: text) -> (ApiResult_1);
+  validateInput: (input: text, minLength: nat, maxLength: nat, allowHtml:
+   bool) -> (opt ValidationError) query;
+  verifyOtp: (email: text, code: text) -> (ApiResult);
+}

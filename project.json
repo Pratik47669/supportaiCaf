@@ -1,0 +1,29 @@
+{
+  "overview": "SupportAI is an AI-powered customer support SaaS platform with knowledge base RAG, website training, AI playground, embeddable chat widget, CRM enhancements, live human handoff, feedback system, exports, email templates, PWA support, and comprehensive UI/UX polish.",
+  "features": [
+    "AI customer support chat with conversation memory",
+    "Knowledge base RAG with document upload and semantic search",
+    "Website training for AI knowledge",
+    "AI playground for prompt and personality configuration",
+    "Embeddable chat widget for business websites",
+    "CRM with tags, notes, and customer insights",
+    "Live human handoff from AI",
+    "Feedback system with thumbs up/down",
+    "Export to PDF, Excel, and CSV",
+    "Email automation templates",
+    "PWA with offline support",
+    "Security hardening and audit logs",
+    "Glassmorphism UI with animations and toast notifications"
+  ],
+  "category": "saas-platform",
+  "tags": [
+    "ai",
+    "customer-support",
+    "chatbot",
+    "knowledge-base",
+    "crm",
+    "analytics",
+    "saas"
+  ],
+  "last_updated": "2026-06-26T09:41:33.718Z"
+}

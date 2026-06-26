@@ -1,0 +1,1295 @@
+// Version: 4.0.0
+type AiConfig__170942516 =
+  {
+    businessId : BusinessId__470246728;
+    maxTokens : Nat;
+    personality : AiPersonality__447797768;
+    systemPrompt : Text;
+    temperature : Float;
+    tone : ResponseTone__424596947;
+    updatedAt : Timestamp__695951621
+  };
+type AiPersonality__447797768 = {#calm; #friendly; #professional; #witty};
+type ArticleId__941781605 = Nat;
+type AuditEventType__285274168 =
+  {
+    #CREATE_CUSTOMER;
+    #CREATE_TICKET;
+    #DELETE_TICKET;
+    #EXPORT_DATA;
+    #INVITE_MEMBER;
+    #LOGIN;
+    #LOGOUT;
+    #SEND_MESSAGE;
+    #UPDATE_CUSTOMER;
+    #UPDATE_SETTINGS;
+    #UPDATE_TICKET
+  };
+type AuditLog__710635566 =
+  {
+    businessId : ?BusinessId__470246728;
+    details : Text;
+    eventType : AuditEventType__285274168;
+    id : Nat;
+    principal : Principal;
+    timestamp : Timestamp__695951621
+  };
+type BusinessId__470246728 = Nat;
+type Business__879718565 =
+  {
+    createdAt : Timestamp__695951621;
+    description : Text;
+    id : BusinessId__470246728;
+    industry : Text;
+    logoUrl : ?Text;
+    name : Text;
+    ownerId : UserId__502046176;
+    phoneNumber : ?Text;
+    supportEmail : Text;
+    teamSize : Text;
+    website : ?Text
+  };
+type ChatMessageRole__627058102 = {#assistant; #bot; #user};
+type ChatMessage__995984006 =
+  {
+    confidence : ?Float;
+    content : Text;
+    conversationId : ConversationId__217408246;
+    id : MessageId__439296426;
+    role : ChatMessageRole__627058102;
+    timestamp : Timestamp__695951621
+  };
+type ChunkId__58903267 = Nat;
+type ConversationId__217408246 = Nat;
+type Conversation__244294194 =
+  {
+    businessId : BusinessId__470246728;
+    createdAt : Timestamp__695951621;
+    id : ConversationId__217408246;
+    title : Text;
+    updatedAt : Timestamp__695951621;
+    userId : UserId__502046176
+  };
+type CrawledPageId__1041150557 = Nat;
+type CrawledPage__755246518 =
+  {
+    businessId : BusinessId__470246728;
+    content : Text;
+    createdAt : Timestamp__695951621;
+    id : CrawledPageId__1041150557;
+    title : Text;
+    url : Text
+  };
+type CustomerId__973267512 = Nat;
+type CustomerNote__1061223437 =
+  {
+    authorId : UserId__502046176;
+    createdAt : Timestamp__695951621;
+    text : Text
+  };
+type Customer__544629606 =
+  {
+    businessId : BusinessId__470246728;
+    createdAt : Timestamp__695951621;
+    email : Text;
+    id : CustomerId__973267512;
+    lastInteraction : Timestamp__695951621;
+    name : Text;
+    notes : [CustomerNote__1061223437];
+    tags : [Text];
+    totalChats : Nat
+  };
+type Data__80296667<K, V> =
+  {var count : Nat__1040412405; kvs : [var ?(K, V)]};
+type DocumentChunk__889274457 =
+  {
+    articleId : ArticleId__941781605;
+    chunkIndex : Nat;
+    content : Text;
+    createdAt : Timestamp__695951621;
+    id : ChunkId__58903267
+  };
+type Embedding__67912659 = {chunkId : ChunkId__58903267; vector : [Float]};
+type FeedbackId__990397315 = Nat;
+type FeedbackRating__147732119 = {#thumbsDown; #thumbsUp};
+type Feedback__99016138 =
+  {
+    comment : ?Text;
+    conversationId : ConversationId__217408246;
+    createdAt : Timestamp__695951621;
+    id : FeedbackId__990397315;
+    messageId : MessageId__439296426;
+    rating : FeedbackRating__147732119
+  };
+type Internal__41346355<K, V> =
+  {children : [var ?Node__1000929467<K, V>]; data : Data__80296667<K, V>};
+type InviteId__842331399 = Nat;
+type InviteLink__507487876 =
+  {
+    businessId : BusinessId__470246728;
+    code : Text;
+    createdBy : UserId__502046176;
+    expiresAt : Timestamp__695951621;
+    id : InviteId__842331399;
+    revokedAt : ?Timestamp__695951621;
+    role : UserRole__203834362;
+    used : Bool
+  };
+type KnowledgeBaseArticle__599000189 =
+  {
+    businessId : BusinessId__470246728;
+    category : Text;
+    content : Text;
+    createdAt : Timestamp__695951621;
+    id : ArticleId__941781605;
+    title : Text;
+    updatedAt : Timestamp__695951621
+  };
+type Leaf__712614010<K, V> = {data : Data__80296667<K, V>};
+type Map__222667396<K, V> = Map__912772452<K, V>;
+type Map__709709801<K, V> =
+  {var root : Node__1000929467<K, V>; var size : Nat__1040412405};
+type Map__912772452<K, V> = Map__709709801<K, V>;
+type MessageId__439296426 = Nat;
+type Nat__1040412405 = Nat__920180692;
+type Nat__920180692 = Nat;
+type NewActor__195845102 =
+  {
+    accessControlState :
+      {
+        var adminAssigned : Bool;
+        userRoles : Map__222667396<Principal, {#admin; #guest; #user}>
+      };
+    var aiConfigs :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        maxTokens : Nat;
+                        personality :
+                          {#calm; #friendly; #professional; #witty};
+                        systemPrompt : Text;
+                        temperature : Float;
+                        tone : {#casual; #direct; #empathetic; #formal};
+                        updatedAt : Nat
+                      }>;
+    var articles :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        category : Text;
+                        content : Text;
+                        createdAt : Nat;
+                        id : Nat;
+                        title : Text;
+                        updatedAt : Nat
+                      }>;
+    var auditLogs :
+      Map__222667396<Nat,
+                      {
+                        businessId : ?Nat;
+                        details : Text;
+                        eventType :
+                          {
+                            #CREATE_CUSTOMER;
+                            #CREATE_TICKET;
+                            #DELETE_TICKET;
+                            #EXPORT_DATA;
+                            #INVITE_MEMBER;
+                            #LOGIN;
+                            #LOGOUT;
+                            #SEND_MESSAGE;
+                            #UPDATE_CUSTOMER;
+                            #UPDATE_SETTINGS;
+                            #UPDATE_TICKET
+                          };
+                        id : Nat;
+                        principal : Principal;
+                        timestamp : Nat
+                      }>;
+    var businesses :
+      Map__222667396<Nat,
+                      {
+                        createdAt : Nat;
+                        description : Text;
+                        id : Nat;
+                        industry : Text;
+                        logoUrl : ?Text;
+                        name : Text;
+                        ownerId : Principal;
+                        phoneNumber : ?Text;
+                        supportEmail : Text;
+                        teamSize : Text;
+                        website : ?Text
+                      }>;
+    var chunks :
+      Map__222667396<Nat,
+                      {
+                        articleId : Nat;
+                        chunkIndex : Nat;
+                        content : Text;
+                        createdAt : Nat;
+                        id : Nat
+                      }>;
+    var conversations :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        createdAt : Nat;
+                        id : Nat;
+                        title : Text;
+                        updatedAt : Nat;
+                        userId : Principal
+                      }>;
+    var crawledPages :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        content : Text;
+                        createdAt : Nat;
+                        id : Nat;
+                        title : Text;
+                        url : Text
+                      }>;
+    var customers :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        createdAt : Nat;
+                        email : Text;
+                        id : Nat;
+                        lastInteraction : Nat;
+                        name : Text;
+                        notes :
+                          [{
+                             authorId : Principal;
+                             createdAt : Nat;
+                             text : Text
+                           }];
+                        tags : [Text];
+                        totalChats : Nat
+                      }>;
+    var embeddings : Map__222667396<Nat, {chunkId : Nat; vector : [Float]}>;
+    var feedbacks :
+      Map__222667396<Nat,
+                      {
+                        comment : ?Text;
+                        conversationId : Nat;
+                        createdAt : Nat;
+                        id : Nat;
+                        messageId : Nat;
+                        rating : {#thumbsDown; #thumbsUp}
+                      }>;
+    var geminiApiKey : {var value : Text};
+    var invites :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        code : Text;
+                        createdBy : Principal;
+                        expiresAt : Nat;
+                        id : Nat;
+                        revokedAt : ?Nat;
+                        role : {#admin; #owner; #supportAgent; #viewer};
+                        used : Bool
+                      }>;
+    var messages :
+      Map__222667396<Nat,
+                      {
+                        confidence : ?Float;
+                        content : Text;
+                        conversationId : Nat;
+                        id : Nat;
+                        role : {#assistant; #bot; #user};
+                        timestamp : Nat
+                      }>;
+    var nextArticleId : {var value : Nat};
+    var nextAuditLogId : {var value : Nat};
+    var nextBusinessId : {var value : Nat};
+    var nextChunkId : {var value : Nat};
+    var nextConversationId : {var value : Nat};
+    var nextCrawledPageId : {var value : Nat};
+    var nextCustomerId : {var value : Nat};
+    var nextFeedbackId : {var value : Nat};
+    var nextInviteId : {var value : Nat};
+    var nextMessageId : {var value : Nat};
+    var nextPromptVersionId : {var value : Nat};
+    var nextTicketId : {var value : Nat};
+    var otps :
+      Map__222667396<Text,
+                      {
+                        code : Text;
+                        createdAt : Nat;
+                        email : Text;
+                        verified : Bool
+                      }>;
+    var promptVersions :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        createdAt : Nat;
+                        id : Nat;
+                        isActive : Bool;
+                        systemPrompt : Text;
+                        versionNumber : Nat
+                      }>;
+    var rateLimits :
+      Map__222667396<Principal,
+                      {
+                        count : Nat;
+                        endpoint : Text;
+                        principal : Principal;
+                        windowStart : Nat
+                      }>;
+    var tickets :
+      Map__222667396<Nat,
+                      {
+                        assignee : ?Principal;
+                        businessId : Nat;
+                        createdAt : Nat;
+                        creator : Principal;
+                        description : Text;
+                        id : Nat;
+                        priority : {#high; #low; #medium; #urgent};
+                        status : {#closed; #inProgress; #open; #resolved};
+                        title : Text;
+                        updatedAt : Nat
+                      }>;
+    var users :
+      Map__222667396<Principal,
+                      {
+                        businessId : ?Nat;
+                        createdAt : Nat;
+                        email : ?Text;
+                        id : Principal;
+                        isActive : Bool;
+                        name : Text;
+                        principal : Principal;
+                        role : {#admin; #owner; #supportAgent; #viewer}
+                      }>
+  };
+type NewActor__378377534 =
+  {
+    accessControlState :
+      {
+        var adminAssigned : Bool;
+        userRoles : Map__222667396<Principal, {#admin; #guest; #user}>
+      };
+    var aiConfigs :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        maxTokens : Nat;
+                        personality :
+                          {#calm; #friendly; #professional; #witty};
+                        systemPrompt : Text;
+                        temperature : Float;
+                        tone : {#casual; #direct; #empathetic; #formal};
+                        updatedAt : Nat
+                      }>;
+    var articles :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        category : Text;
+                        content : Text;
+                        createdAt : Nat;
+                        id : Nat;
+                        title : Text;
+                        updatedAt : Nat
+                      }>;
+    var auditLogs :
+      Map__222667396<Nat,
+                      {
+                        businessId : ?Nat;
+                        details : Text;
+                        eventType :
+                          {
+                            #CREATE_CUSTOMER;
+                            #CREATE_TICKET;
+                            #DELETE_TICKET;
+                            #EXPORT_DATA;
+                            #INVITE_MEMBER;
+                            #LOGIN;
+                            #LOGOUT;
+                            #SEND_MESSAGE;
+                            #UPDATE_CUSTOMER;
+                            #UPDATE_SETTINGS;
+                            #UPDATE_TICKET
+                          };
+                        id : Nat;
+                        principal : Principal;
+                        timestamp : Nat
+                      }>;
+    var businesses :
+      Map__222667396<Nat,
+                      {
+                        createdAt : Nat;
+                        description : Text;
+                        id : Nat;
+                        industry : Text;
+                        logoUrl : ?Text;
+                        name : Text;
+                        ownerId : Principal;
+                        phoneNumber : ?Text;
+                        supportEmail : Text;
+                        teamSize : Text;
+                        website : ?Text
+                      }>;
+    var chunks :
+      Map__222667396<Nat,
+                      {
+                        articleId : Nat;
+                        chunkIndex : Nat;
+                        content : Text;
+                        createdAt : Nat;
+                        id : Nat
+                      }>;
+    var conversations :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        createdAt : Nat;
+                        id : Nat;
+                        title : Text;
+                        updatedAt : Nat;
+                        userId : Principal
+                      }>;
+    var crawledPages :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        content : Text;
+                        createdAt : Nat;
+                        id : Nat;
+                        title : Text;
+                        url : Text
+                      }>;
+    var customers :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        createdAt : Nat;
+                        email : Text;
+                        id : Nat;
+                        lastInteraction : Nat;
+                        name : Text;
+                        notes :
+                          [{
+                             authorId : Principal;
+                             createdAt : Nat;
+                             text : Text
+                           }];
+                        tags : [Text];
+                        totalChats : Nat
+                      }>;
+    var embeddings : Map__222667396<Nat, {chunkId : Nat; vector : [Float]}>;
+    var feedbacks :
+      Map__222667396<Nat,
+                      {
+                        comment : ?Text;
+                        conversationId : Nat;
+                        createdAt : Nat;
+                        id : Nat;
+                        messageId : Nat;
+                        rating : {#thumbsDown; #thumbsUp}
+                      }>;
+    var geminiApiKey : {var value : Text};
+    var invites :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        code : Text;
+                        createdBy : Principal;
+                        expiresAt : Nat;
+                        id : Nat;
+                        revokedAt : ?Nat;
+                        role : {#admin; #owner; #supportAgent; #viewer};
+                        used : Bool
+                      }>;
+    var messages :
+      Map__222667396<Nat,
+                      {
+                        confidence : ?Float;
+                        content : Text;
+                        conversationId : Nat;
+                        id : Nat;
+                        role : {#assistant; #bot; #user};
+                        timestamp : Nat
+                      }>;
+    var nextArticleId : {var value : Nat};
+    var nextAuditLogId : {var value : Nat};
+    var nextBusinessId : {var value : Nat};
+    var nextChunkId : {var value : Nat};
+    var nextConversationId : {var value : Nat};
+    var nextCrawledPageId : {var value : Nat};
+    var nextCustomerId : {var value : Nat};
+    var nextFeedbackId : {var value : Nat};
+    var nextInviteId : {var value : Nat};
+    var nextMessageId : {var value : Nat};
+    var nextPromptVersionId : {var value : Nat};
+    var nextTicketId : {var value : Nat};
+    var otps :
+      Map__222667396<Text,
+                      {
+                        code : Text;
+                        createdAt : Nat;
+                        email : Text;
+                        verified : Bool
+                      }>;
+    var promptVersions :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        createdAt : Nat;
+                        id : Nat;
+                        isActive : Bool;
+                        systemPrompt : Text;
+                        versionNumber : Nat
+                      }>;
+    var rateLimits :
+      Map__222667396<Principal,
+                      {
+                        count : Nat;
+                        endpoint : Text;
+                        principal : Principal;
+                        windowStart : Nat
+                      }>;
+    var tickets :
+      Map__222667396<Nat,
+                      {
+                        assignee : ?Principal;
+                        businessId : Nat;
+                        createdAt : Nat;
+                        creator : Principal;
+                        customerId : ?Principal;
+                        description : Text;
+                        id : Nat;
+                        isDeleted : ?Bool;
+                        priority : {#high; #low; #medium; #urgent};
+                        status : {#closed; #inProgress; #open; #resolved};
+                        title : Text;
+                        updatedAt : Nat
+                      }>;
+    var users :
+      Map__222667396<Principal,
+                      {
+                        businessId : ?Nat;
+                        createdAt : Nat;
+                        email : ?Text;
+                        id : Principal;
+                        isActive : Bool;
+                        name : Text;
+                        principal : Principal;
+                        role : {#admin; #owner; #supportAgent; #viewer}
+                      }>
+  };
+type NewActor__9515972 =
+  {
+    accessControlState :
+      {
+        var adminAssigned : Bool;
+        userRoles : Map__222667396<Principal, {#admin; #guest; #user}>
+      };
+    var businesses :
+      Map__222667396<Nat,
+                      {
+                        createdAt : Nat;
+                        description : Text;
+                        id : Nat;
+                        industry : Text;
+                        logoUrl : ?Text;
+                        name : Text;
+                        ownerId : Principal;
+                        phoneNumber : ?Text;
+                        supportEmail : Text;
+                        teamSize : Text;
+                        website : ?Text
+                      }>;
+    var nextBusinessId : {var value : Nat};
+    var otps :
+      Map__222667396<Text,
+                      {
+                        code : Text;
+                        createdAt : Nat;
+                        email : Text;
+                        verified : Bool
+                      }>;
+    var users :
+      Map__222667396<Principal,
+                      {
+                        businessId : ?Nat;
+                        createdAt : Nat;
+                        email : ?Text;
+                        id : Principal;
+                        isActive : Bool;
+                        name : Text;
+                        principal : Principal;
+                        role : {#admin; #owner; #supportAgent; #viewer}
+                      }>
+  };
+type NewActor__986995803 =
+  {
+    accessControlState :
+      {
+        var adminAssigned : Bool;
+        userRoles : Map__222667396<Principal, {#admin; #guest; #user}>
+      };
+    var articles :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        category : Text;
+                        content : Text;
+                        createdAt : Nat;
+                        id : Nat;
+                        title : Text;
+                        updatedAt : Nat
+                      }>;
+    var businesses :
+      Map__222667396<Nat,
+                      {
+                        createdAt : Nat;
+                        description : Text;
+                        id : Nat;
+                        industry : Text;
+                        logoUrl : ?Text;
+                        name : Text;
+                        ownerId : Principal;
+                        phoneNumber : ?Text;
+                        supportEmail : Text;
+                        teamSize : Text;
+                        website : ?Text
+                      }>;
+    var conversations :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        createdAt : Nat;
+                        id : Nat;
+                        title : Text;
+                        updatedAt : Nat;
+                        userId : Principal
+                      }>;
+    var customers :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        createdAt : Nat;
+                        email : Text;
+                        id : Nat;
+                        name : Text
+                      }>;
+    var geminiApiKey : {var value : Text};
+    var invites :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        code : Text;
+                        createdBy : Principal;
+                        expiresAt : Nat;
+                        id : Nat;
+                        revokedAt : ?Nat;
+                        role : {#admin; #owner; #supportAgent; #viewer};
+                        used : Bool
+                      }>;
+    var messages :
+      Map__222667396<Nat,
+                      {
+                        content : Text;
+                        conversationId : Nat;
+                        id : Nat;
+                        role : {#assistant; #bot; #user};
+                        timestamp : Nat
+                      }>;
+    var nextArticleId : {var value : Nat};
+    var nextBusinessId : {var value : Nat};
+    var nextConversationId : {var value : Nat};
+    var nextCustomerId : {var value : Nat};
+    var nextInviteId : {var value : Nat};
+    var nextMessageId : {var value : Nat};
+    var nextTicketId : {var value : Nat};
+    var otps :
+      Map__222667396<Text,
+                      {
+                        code : Text;
+                        createdAt : Nat;
+                        email : Text;
+                        verified : Bool
+                      }>;
+    var tickets :
+      Map__222667396<Nat,
+                      {
+                        assignee : ?Principal;
+                        businessId : Nat;
+                        createdAt : Nat;
+                        creator : Principal;
+                        description : Text;
+                        id : Nat;
+                        priority : {#high; #low; #medium; #urgent};
+                        status : {#closed; #inProgress; #open; #resolved};
+                        title : Text;
+                        updatedAt : Nat
+                      }>;
+    var users :
+      Map__222667396<Principal,
+                      {
+                        businessId : ?Nat;
+                        createdAt : Nat;
+                        email : ?Text;
+                        id : Principal;
+                        isActive : Bool;
+                        name : Text;
+                        principal : Principal;
+                        role : {#admin; #owner; #supportAgent; #viewer}
+                      }>
+  };
+type Node__1000929467<K, V> =
+  {#internal : Internal__41346355<K, V>; #leaf : Leaf__712614010<K, V>};
+type OldActor__189067758 =
+  {
+    accessControlState :
+      {
+        var adminAssigned : Bool;
+        userRoles : Map__222667396<Principal, {#admin; #guest; #user}>
+      };
+    var aiConfigs :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        maxTokens : Nat;
+                        personality :
+                          {#calm; #friendly; #professional; #witty};
+                        systemPrompt : Text;
+                        temperature : Float;
+                        tone : {#casual; #direct; #empathetic; #formal};
+                        updatedAt : Nat
+                      }>;
+    var articles :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        category : Text;
+                        content : Text;
+                        createdAt : Nat;
+                        id : Nat;
+                        title : Text;
+                        updatedAt : Nat
+                      }>;
+    var auditLogs :
+      Map__222667396<Nat,
+                      {
+                        businessId : ?Nat;
+                        details : Text;
+                        eventType :
+                          {
+                            #CREATE_CUSTOMER;
+                            #CREATE_TICKET;
+                            #DELETE_TICKET;
+                            #EXPORT_DATA;
+                            #INVITE_MEMBER;
+                            #LOGIN;
+                            #LOGOUT;
+                            #SEND_MESSAGE;
+                            #UPDATE_CUSTOMER;
+                            #UPDATE_SETTINGS;
+                            #UPDATE_TICKET
+                          };
+                        id : Nat;
+                        principal : Principal;
+                        timestamp : Nat
+                      }>;
+    var businesses :
+      Map__222667396<Nat,
+                      {
+                        createdAt : Nat;
+                        description : Text;
+                        id : Nat;
+                        industry : Text;
+                        logoUrl : ?Text;
+                        name : Text;
+                        ownerId : Principal;
+                        phoneNumber : ?Text;
+                        supportEmail : Text;
+                        teamSize : Text;
+                        website : ?Text
+                      }>;
+    var chunks :
+      Map__222667396<Nat,
+                      {
+                        articleId : Nat;
+                        chunkIndex : Nat;
+                        content : Text;
+                        createdAt : Nat;
+                        id : Nat
+                      }>;
+    var conversations :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        createdAt : Nat;
+                        id : Nat;
+                        title : Text;
+                        updatedAt : Nat;
+                        userId : Principal
+                      }>;
+    var crawledPages :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        content : Text;
+                        createdAt : Nat;
+                        id : Nat;
+                        title : Text;
+                        url : Text
+                      }>;
+    var customers :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        createdAt : Nat;
+                        email : Text;
+                        id : Nat;
+                        lastInteraction : Nat;
+                        name : Text;
+                        notes :
+                          [{
+                             authorId : Principal;
+                             createdAt : Nat;
+                             text : Text
+                           }];
+                        tags : [Text];
+                        totalChats : Nat
+                      }>;
+    var embeddings : Map__222667396<Nat, {chunkId : Nat; vector : [Float]}>;
+    var feedbacks :
+      Map__222667396<Nat,
+                      {
+                        comment : ?Text;
+                        conversationId : Nat;
+                        createdAt : Nat;
+                        id : Nat;
+                        messageId : Nat;
+                        rating : {#thumbsDown; #thumbsUp}
+                      }>;
+    var geminiApiKey : {var value : Text};
+    var invites :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        code : Text;
+                        createdBy : Principal;
+                        expiresAt : Nat;
+                        id : Nat;
+                        revokedAt : ?Nat;
+                        role : {#admin; #owner; #supportAgent; #viewer};
+                        used : Bool
+                      }>;
+    var messages :
+      Map__222667396<Nat,
+                      {
+                        confidence : ?Float;
+                        content : Text;
+                        conversationId : Nat;
+                        id : Nat;
+                        role : {#assistant; #bot; #user};
+                        timestamp : Nat
+                      }>;
+    var nextArticleId : {var value : Nat};
+    var nextAuditLogId : {var value : Nat};
+    var nextBusinessId : {var value : Nat};
+    var nextChunkId : {var value : Nat};
+    var nextConversationId : {var value : Nat};
+    var nextCrawledPageId : {var value : Nat};
+    var nextCustomerId : {var value : Nat};
+    var nextFeedbackId : {var value : Nat};
+    var nextInviteId : {var value : Nat};
+    var nextMessageId : {var value : Nat};
+    var nextPromptVersionId : {var value : Nat};
+    var nextTicketId : {var value : Nat};
+    var otps :
+      Map__222667396<Text,
+                      {
+                        code : Text;
+                        createdAt : Nat;
+                        email : Text;
+                        verified : Bool
+                      }>;
+    var promptVersions :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        createdAt : Nat;
+                        id : Nat;
+                        isActive : Bool;
+                        systemPrompt : Text;
+                        versionNumber : Nat
+                      }>;
+    var rateLimits :
+      Map__222667396<Principal,
+                      {
+                        count : Nat;
+                        endpoint : Text;
+                        principal : Principal;
+                        windowStart : Nat
+                      }>;
+    var tickets :
+      Map__222667396<Nat,
+                      {
+                        assignee : ?Principal;
+                        businessId : Nat;
+                        createdAt : Nat;
+                        creator : Principal;
+                        description : Text;
+                        id : Nat;
+                        priority : {#high; #low; #medium; #urgent};
+                        status : {#closed; #inProgress; #open; #resolved};
+                        title : Text;
+                        updatedAt : Nat
+                      }>;
+    var users :
+      Map__222667396<Principal,
+                      {
+                        businessId : ?Nat;
+                        createdAt : Nat;
+                        email : ?Text;
+                        id : Principal;
+                        isActive : Bool;
+                        name : Text;
+                        principal : Principal;
+                        role : {#admin; #owner; #supportAgent; #viewer}
+                      }>
+  };
+type OldActor__524070963 =
+  {
+    accessControlState :
+      {
+        var adminAssigned : Bool;
+        userRoles : Map__222667396<Principal, {#admin; #guest; #user}>
+      };
+    var articles :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        category : Text;
+                        content : Text;
+                        createdAt : Nat;
+                        id : Nat;
+                        title : Text;
+                        updatedAt : Nat
+                      }>;
+    var businesses :
+      Map__222667396<Nat,
+                      {
+                        createdAt : Nat;
+                        description : Text;
+                        id : Nat;
+                        industry : Text;
+                        logoUrl : ?Text;
+                        name : Text;
+                        ownerId : Principal;
+                        phoneNumber : ?Text;
+                        supportEmail : Text;
+                        teamSize : Text;
+                        website : ?Text
+                      }>;
+    var conversations :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        createdAt : Nat;
+                        id : Nat;
+                        title : Text;
+                        updatedAt : Nat;
+                        userId : Principal
+                      }>;
+    var customers :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        createdAt : Nat;
+                        email : Text;
+                        id : Nat;
+                        name : Text
+                      }>;
+    var geminiApiKey : {var value : Text};
+    var invites :
+      Map__222667396<Nat,
+                      {
+                        businessId : Nat;
+                        code : Text;
+                        createdBy : Principal;
+                        expiresAt : Nat;
+                        id : Nat;
+                        revokedAt : ?Nat;
+                        role : {#admin; #owner; #supportAgent; #viewer};
+                        used : Bool
+                      }>;
+    var messages :
+      Map__222667396<Nat,
+                      {
+                        content : Text;
+                        conversationId : Nat;
+                        id : Nat;
+                        role : {#assistant; #bot; #user};
+                        timestamp : Nat
+                      }>;
+    var nextArticleId : {var value : Nat};
+    var nextBusinessId : {var value : Nat};
+    var nextConversationId : {var value : Nat};
+    var nextCustomerId : {var value : Nat};
+    var nextInviteId : {var value : Nat};
+    var nextMessageId : {var value : Nat};
+    var nextTicketId : {var value : Nat};
+    var otps :
+      Map__222667396<Text,
+                      {
+                        code : Text;
+                        createdAt : Nat;
+                        email : Text;
+                        verified : Bool
+                      }>;
+    var tickets :
+      Map__222667396<Nat,
+                      {
+                        assignee : ?Principal;
+                        businessId : Nat;
+                        createdAt : Nat;
+                        creator : Principal;
+                        description : Text;
+                        id : Nat;
+                        priority : {#high; #low; #medium; #urgent};
+                        status : {#closed; #inProgress; #open; #resolved};
+                        title : Text;
+                        updatedAt : Nat
+                      }>;
+    var users :
+      Map__222667396<Principal,
+                      {
+                        businessId : ?Nat;
+                        createdAt : Nat;
+                        email : ?Text;
+                        id : Principal;
+                        isActive : Bool;
+                        name : Text;
+                        principal : Principal;
+                        role : {#admin; #owner; #supportAgent; #viewer}
+                      }>
+  };
+type OldActor__67089393 =
+  {
+    accessControlState :
+      {
+        var adminAssigned : Bool;
+        userRoles : Map__222667396<Principal, {#admin; #guest; #user}>
+      };
+    var businesses :
+      Map__222667396<Nat,
+                      {
+                        createdAt : Nat;
+                        description : Text;
+                        id : Nat;
+                        industry : Text;
+                        logoUrl : ?Text;
+                        name : Text;
+                        ownerId : Principal;
+                        phoneNumber : ?Text;
+                        supportEmail : Text;
+                        teamSize : Text;
+                        website : ?Text
+                      }>;
+    var nextBusinessId : {var value : Nat};
+    var otps :
+      Map__222667396<Text,
+                      {
+                        code : Text;
+                        createdAt : Nat;
+                        email : Text;
+                        verified : Bool
+                      }>;
+    var users :
+      Map__222667396<Principal,
+                      {
+                        businessId : ?Nat;
+                        createdAt : Nat;
+                        email : ?Text;
+                        id : Principal;
+                        isActive : Bool;
+                        name : Text;
+                        principal : Principal;
+                        role : {#admin; #owner; #supportAgent; #viewer}
+                      }>
+  };
+type OldActor__828966767 = {};
+type OtpRecord__866031897 =
+  {
+    code : Text;
+    createdAt : Timestamp__695951621;
+    email : Text;
+    verified : Bool
+  };
+type PromptVersion__604237885 =
+  {
+    businessId : BusinessId__470246728;
+    createdAt : Timestamp__695951621;
+    id : Nat;
+    isActive : Bool;
+    systemPrompt : Text;
+    versionNumber : Nat
+  };
+type RateLimitEntry__793607216 =
+  {
+    count : Nat;
+    endpoint : Text;
+    principal : Principal;
+    windowStart : Timestamp__695951621
+  };
+type ResponseTone__424596947 = {#casual; #direct; #empathetic; #formal};
+type TicketId__345461421 = Nat;
+type TicketPriority__530917847 = {#high; #low; #medium; #urgent};
+type TicketStatus__319220631 = {#closed; #inProgress; #open; #resolved};
+type Ticket__69601262 =
+  {
+    assignee : ?UserId__502046176;
+    businessId : BusinessId__470246728;
+    createdAt : Timestamp__695951621;
+    creator : UserId__502046176;
+    customerId : ?UserId__502046176;
+    description : Text;
+    id : TicketId__345461421;
+    isDeleted : ?Bool;
+    priority : TicketPriority__530917847;
+    status : TicketStatus__319220631;
+    title : Text;
+    updatedAt : Timestamp__695951621
+  };
+type Timestamp__695951621 = Nat;
+type UserId__502046176 = Principal;
+type UserRole__203834362 = {#admin; #owner; #supportAgent; #viewer};
+type UserRole__686137147 = {#admin; #guest; #user};
+type User__1001603178 =
+  {
+    businessId : ?BusinessId__470246728;
+    createdAt : Timestamp__695951621;
+    email : ?Text;
+    id : UserId__502046176;
+    isActive : Bool;
+    name : Text;
+    principal : Principal;
+    role : UserRole__203834362
+  };
+{
+  "20260101_000000" : (_old : OldActor__828966767) -> NewActor__9515972;
+  "20260626_000000" : (old : OldActor__67089393) -> NewActor__986995803;
+  "20260626_000001" : (old : OldActor__524070963) -> NewActor__195845102;
+  "20260626_000002" : (old : OldActor__189067758) -> NewActor__378377534
+}
+actor  {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__222667396<Principal, UserRole__686137147>
+    };
+  stable aiConfigs :
+    {
+      var root : Node__1000929467<BusinessId__470246728, AiConfig__170942516>;
+      var size : Nat__1040412405
+    };
+  stable articles :
+    {
+      var root :
+        Node__1000929467<ArticleId__941781605,
+                          KnowledgeBaseArticle__599000189>;
+      var size : Nat__1040412405
+    };
+  stable auditLogs :
+    {
+      var root : Node__1000929467<Nat, AuditLog__710635566>;
+      var size : Nat__1040412405
+    };
+  stable businesses :
+    {
+      var root : Node__1000929467<BusinessId__470246728, Business__879718565>;
+      var size : Nat__1040412405
+    };
+  stable chunks :
+    {
+      var root : Node__1000929467<ChunkId__58903267, DocumentChunk__889274457>;
+      var size : Nat__1040412405
+    };
+  stable conversations :
+    {
+      var root :
+        Node__1000929467<ConversationId__217408246, Conversation__244294194>;
+      var size : Nat__1040412405
+    };
+  stable crawledPages :
+    {
+      var root :
+        Node__1000929467<CrawledPageId__1041150557, CrawledPage__755246518>;
+      var size : Nat__1040412405
+    };
+  stable customers :
+    {
+      var root : Node__1000929467<CustomerId__973267512, Customer__544629606>;
+      var size : Nat__1040412405
+    };
+  stable embeddings :
+    {
+      var root : Node__1000929467<ChunkId__58903267, Embedding__67912659>;
+      var size : Nat__1040412405
+    };
+  stable feedbacks :
+    {
+      var root : Node__1000929467<FeedbackId__990397315, Feedback__99016138>;
+      var size : Nat__1040412405
+    };
+  stable geminiApiKey : {var value : Text};
+  stable invites :
+    {
+      var root : Node__1000929467<InviteId__842331399, InviteLink__507487876>;
+      var size : Nat__1040412405
+    };
+  stable messages :
+    {
+      var root :
+        Node__1000929467<MessageId__439296426, ChatMessage__995984006>;
+      var size : Nat__1040412405
+    };
+  stable nextArticleId : {var value : Nat};
+  stable nextAuditLogId : {var value : Nat};
+  stable nextBusinessId : {var value : Nat};
+  stable nextChunkId : {var value : Nat};
+  stable nextConversationId : {var value : Nat};
+  stable nextCrawledPageId : {var value : Nat};
+  stable nextCustomerId : {var value : Nat};
+  stable nextFeedbackId : {var value : Nat};
+  stable nextInviteId : {var value : Nat};
+  stable nextMessageId : {var value : Nat};
+  stable nextPromptVersionId : {var value : Nat};
+  stable nextTicketId : {var value : Nat};
+  stable otps :
+    {
+      var root : Node__1000929467<Text, OtpRecord__866031897>;
+      var size : Nat__1040412405
+    };
+  stable promptVersions :
+    {
+      var root : Node__1000929467<Nat, PromptVersion__604237885>;
+      var size : Nat__1040412405
+    };
+  stable rateLimits :
+    {
+      var root : Node__1000929467<Principal, RateLimitEntry__793607216>;
+      var size : Nat__1040412405
+    };
+  stable tickets :
+    {
+      var root : Node__1000929467<TicketId__345461421, Ticket__69601262>;
+      var size : Nat__1040412405
+    };
+  stable users :
+    {
+      var root : Node__1000929467<Principal, User__1001603178>;
+      var size : Nat__1040412405
+    }
+};
